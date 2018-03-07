@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: spring-transaction
+  datasource:
+      url: jdbc:h2:mem:test
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
