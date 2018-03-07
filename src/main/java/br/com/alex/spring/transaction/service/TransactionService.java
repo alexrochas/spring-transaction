@@ -35,4 +35,24 @@ public class TransactionService {
 
     throw new RuntimeException();
   }
+
+  @Transactional
+  public void throwExpectedExceptionTransactional(String... names) throws Exception {
+    Arrays.stream(names)
+            .forEach((name) -> {
+              dogRepository.save(new DogModel(name));
+            });
+
+    throw new Exception();
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void throwExpectedExceptionWaitingForItTransactional(String... names) throws Exception {
+    Arrays.stream(names)
+            .forEach((name) -> {
+              dogRepository.save(new DogModel(name));
+            });
+
+    throw new Exception();
+  }
 }

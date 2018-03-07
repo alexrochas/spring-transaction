@@ -1,6 +1,7 @@
 package br.com.alex.spring.transaction;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import br.com.alex.spring.transaction.entity.DogModel;
@@ -54,4 +55,29 @@ public class SpringTransactionApplicationTests {
     assertNull(dog6);
   }
 
+  @Test
+  public void shouldNotRollbackBecauseOfExpectedException() {
+    try {
+      transactionService.throwExpectedExceptionTransactional("Dog 7", "Dog 8", "Dog 9");
+    } catch (Exception e) {
+      // still don't care
+    }
+
+    DogModel dog9 = repository.findByName("Dog 9");
+
+    assertNotNull(dog9);
+  }
+
+  @Test
+  public void shouldRollbackBecauseOfExpectedException() {
+    try {
+      transactionService.throwExpectedExceptionWaitingForItTransactional("Dog 10", "Dog 11", "Dog 12");
+    } catch (Exception e) {
+      // still don't care
+    }
+
+    DogModel dog12 = repository.findByName("Dog 12");
+
+    assertNull(dog12);
+  }
 }
